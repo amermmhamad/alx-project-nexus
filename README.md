@@ -192,12 +192,12 @@ Verified method signatures and route handlers.
 
 # Personal Takeaways
 
-Real frontend engineering requires understanding systems, not just code.
+- Real frontend engineering requires understanding systems, not just code.
 
-TypeScript and structured error handling dramatically improve project quality.
+- TypeScript and structured error handling dramatically improve project quality.
 
-API integration and debugging skills are essential for any professional developer.
+- API integration and debugging skills are essential for any professional developer.
 
-Consistency in coding, naming, and architecture saves enormous time long-term.
+- Consistency in coding, naming, and architecture saves enormous time long-term.
 
-Building real applications is the best way to learn.
+- Building real applications is the best way to learn.
