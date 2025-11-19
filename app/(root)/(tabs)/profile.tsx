@@ -3,6 +3,7 @@ import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { logout } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
+import { router } from "expo-router";
 import React from "react";
 import {
   Alert,
@@ -72,7 +73,13 @@ const Profile = () => {
       >
         <View className="flex flex-row items-center justify-between mt-5">
           <Text className="text-xl font-sora-bold">Profile</Text>
-          <Image source={icons.notification} className="size-5" />
+          <TouchableOpacity onPress={() => router.push("/(root)/notification")}>
+            <Image
+              source={icons.notification}
+              className="size-6"
+              tintColor={"#C67C4E"}
+            />
+          </TouchableOpacity>
         </View>
         <View className="flex-row justify-center flex mt-5">
           <View className="flex flex-col items-center relative mt-5">

@@ -10,7 +10,7 @@ interface CardProps {
   tags?: string[];
   logo?: any;
   isSaved?: boolean;
-  onBookmarkPress?: () => void;
+  onPress?: () => void;
 }
 
 const defaultTags = ["Full Time", "Onsite"];
@@ -23,7 +23,7 @@ export const Card = ({
   tags = defaultTags,
   logo = icons.google,
   isSaved = false,
-  onBookmarkPress,
+  onPress,
 }: CardProps) => {
   return (
     <TouchableOpacity className="w-full rounded-3xl bg-white border border-[#EEF1F6] p-5 gap-4">
@@ -47,7 +47,7 @@ export const Card = ({
           className={`size-10 rounded-2xl border items-center justify-center ${
             isSaved ? "bg-primary border-primary" : "border-[#E0E4EB]"
           }`}
-          onPress={onBookmarkPress}
+          onPress={onPress}
         >
           <Image
             source={icons.heart}
@@ -89,7 +89,7 @@ export const FeaturedCard = ({
   tags = defaultTags,
   logo = icons.google,
   isSaved = false,
-  onBookmarkPress,
+  onPress,
 }: CardProps) => {
   return (
     <TouchableOpacity className="w-96 rounded-3xl bg-white border border-[#EEF1F6] p-5 gap-4">
@@ -113,7 +113,7 @@ export const FeaturedCard = ({
           className={`size-10 rounded-2xl border items-center justify-center ${
             isSaved ? "bg-primary border-primary" : "border-[#E0E4EB]"
           }`}
-          onPress={onBookmarkPress}
+          onPress={onPress}
         >
           <Image
             source={icons.heart}

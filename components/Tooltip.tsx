@@ -1,4 +1,5 @@
 import images from "@/constants/images";
+import { router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
@@ -19,7 +20,10 @@ const Tooltip = () => {
             See how you can find a job quickly!
           </Text>
 
-          <TouchableOpacity className="bg-light rounded-full px-5 py-2 mt-4 self-start shadow-md shadow-zinc-500">
+          <TouchableOpacity
+            className="bg-light rounded-full px-5 py-2 mt-4 self-start shadow-md shadow-zinc-500"
+            onPress={() => router.push("/(root)/(tabs)/explore")}
+          >
             <Text className="text-dark font-sora-semibold text-sm">
               Read more
             </Text>

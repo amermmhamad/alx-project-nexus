@@ -5,6 +5,7 @@ import Tooltip from "@/components/Tooltip";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { useGlobalContext } from "@/lib/global-provider";
+import { router } from "expo-router";
 import {
   FlatList,
   Image,
@@ -44,11 +45,13 @@ export default function Index() {
                   </Text>
                 </View>
               </View>
-              <Image
-                source={icons.notification}
-                className="size-6"
-                tintColor={"#C67C4E"}
-              />
+              <TouchableOpacity onPress={() => router.push("/notification")}>
+                <Image
+                  source={icons.notification}
+                  className="size-6"
+                  tintColor={"#C67C4E"}
+                />
+              </TouchableOpacity>
             </View>
             <Search />
 

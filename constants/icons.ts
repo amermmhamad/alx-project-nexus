@@ -1,6 +1,9 @@
+import arrowLeft from "../assets/icons/back-arrow.png";
 import notification from "../assets/icons/bell.png";
 import calendar from "../assets/icons/calendar.png";
+import chat from "../assets/icons/chat.png";
 import edit from "../assets/icons/edit.png";
+import filter from "../assets/icons/filter.png";
 import google from "../assets/icons/google.png";
 import heart from "../assets/icons/heart.png";
 import home from "../assets/icons/Home.png";
@@ -14,7 +17,6 @@ import explore from "../assets/icons/search.png";
 import security from "../assets/icons/shield.png";
 import wallet from "../assets/icons/wallet.png";
 
-import filter from "../assets/icons/filter.png";
 export default {
   google,
   home,
@@ -32,4 +34,6 @@ export default {
   logout,
   filter,
   heart,
+  arrowLeft,
+  chat,
 };

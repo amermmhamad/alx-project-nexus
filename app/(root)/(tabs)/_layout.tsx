@@ -62,6 +62,15 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
+        name="saved"
+        options={{
+          title: "Saved",
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon={icons.heart} title="Saved" />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
