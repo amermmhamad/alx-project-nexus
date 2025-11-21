@@ -1,6 +1,5 @@
 import { settings } from "@/constants/data";
 import icons from "@/constants/icons";
-import images from "@/constants/images";
 import { logout } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { router } from "expo-router";
@@ -84,12 +83,16 @@ const Profile = () => {
         <View className="flex-row justify-center flex mt-5">
           <View className="flex flex-col items-center relative mt-5">
             <Image
-              source={images.avatar}
+              source={{ uri: user?.avatar }}
               className="size-44 relative rounded-full"
               resizeMode="cover"
             />
-            <TouchableOpacity className="absolute bottom-11 right-2">
-              <Image source={icons.edit} className="size-6" />
+            <TouchableOpacity className="absolute bottom-12 right-5">
+              <Image
+                source={icons.edit}
+                className="size-6"
+                tintColor={"#C67C4E"}
+              />
             </TouchableOpacity>
             <Text className="text-2xl font-sora-bold mt-2">{user?.name}</Text>
           </View>
