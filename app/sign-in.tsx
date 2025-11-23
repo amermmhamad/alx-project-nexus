@@ -34,14 +34,10 @@ const SignIn = () => {
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <Image
-          source={images.logo}
-          className="w-96 h-32"
-          resizeMode="contain"
-        />
+        <Image source={images.logo2} className="size-60" resizeMode="contain" />
         <View className="items-center mt-8">
           <TouchableOpacity
-            className="bg-white p-4 rounded-full shadow-lg shadow-zinc-300 flex-row items-center gap-2 w-full mt-2"
+            className="bg-white p-4 rounded-full shadow-lg shadow-zinc-300 flex-row items-center gap-2 w-full mt-10"
             onPress={handleLogin}
           >
             <Image

@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import { useDebouncedCallback } from "use-debounce";
 
-const Search = () => {
+type SearchProps = {
+  onToggleFilters?: () => void;
+};
+
+const Search = ({ onToggleFilters }: SearchProps) => {
   const path = usePathname();
   const params = useLocalSearchParams<{ query?: string }>();
   const [search, setSearch] = useState(params.query || "");
@@ -30,7 +34,11 @@ const Search = () => {
           className="flex-1 text-sm font-sora text-dark ml-2"
         />
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={onToggleFilters}
+        accessibilityLabel="Toggle filters"
+      >
         <Image source={icons.filter} className="size-5" />
       </TouchableOpacity>
     </View>

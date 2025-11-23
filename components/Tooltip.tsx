@@ -1,7 +1,10 @@
 import images from "@/constants/images";
+import { Image as ExpoImage } from "expo-image";
 import { router } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+
+const WOMAN_IMAGE_STYLE = { width: 176, height: 176, marginTop: 8 };
 
 const Tooltip = () => {
   return (
@@ -30,10 +33,13 @@ const Tooltip = () => {
           </TouchableOpacity>
         </View>
 
-        <Image
+        <ExpoImage
           source={images.woman}
-          resizeMode="cover"
-          className="w-44 h-44 mt-2"
+          transition={200}
+          contentFit="cover"
+          cachePolicy="memory-disk"
+          priority="high"
+          style={WOMAN_IMAGE_STYLE}
         />
       </View>
     </View>

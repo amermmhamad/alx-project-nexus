@@ -1,5 +1,6 @@
 import { settings } from "@/constants/data";
 import icons from "@/constants/icons";
+import images from "@/constants/images";
 import { logout } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { router } from "expo-router";
@@ -83,7 +84,7 @@ const Profile = () => {
         <View className="flex-row justify-center flex mt-5">
           <View className="flex flex-col items-center relative mt-5">
             <Image
-              source={{ uri: user?.avatar }}
+              source={images.avatar}
               className="size-44 relative rounded-full"
               resizeMode="cover"
             />

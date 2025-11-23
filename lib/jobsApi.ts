@@ -30,7 +30,16 @@ export type JobFromApi = {
   experience_level?: "Junior" | "Mid" | "Senior" | "Lead" | "Principal";
 };
 
+const JOB_LIST = jobs as JobFromApi[];
+
+const simulateNetwork = async () => new Promise((res) => setTimeout(res, 350));
+
 export async function getJobs(): Promise<JobFromApi[]> {
-  await new Promise((res) => setTimeout(res, 500));
-  return jobs as JobFromApi[];
+  await simulateNetwork();
+  return JOB_LIST;
+}
+
+export async function getJobById(id: string): Promise<JobFromApi | null> {
+  await simulateNetwork();
+  return JOB_LIST.find((job) => job.id === id) ?? null;
 }

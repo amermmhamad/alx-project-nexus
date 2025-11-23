@@ -1,13 +1,16 @@
 import { Card, FeaturedCard } from "@/components/Card";
 import Filters from "@/components/Filters";
+import Search from "@/components/Search";
 import Tooltip from "@/components/Tooltip";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { useGlobalContext } from "@/lib/global-provider";
-import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Animated,
+  Easing,
   FlatList,
   Image,
   ScrollView,
@@ -19,16 +22,32 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import type { JobFromApi } from "@/lib/jobsApi";
 import { getJobs } from "@/lib/jobsApi";
-
-const formatSalary = (salaryRaw: JobFromApi["salary_raw"]) =>
-  salaryRaw && salaryRaw.trim().length > 0 ? salaryRaw : "Salary not specified";
+import {
+  buildTags,
+  formatLocation,
+  formatSalary,
+  getLogoSource,
+  jobMatchesFilters,
+  jobMatchesQuery,
+  type ActiveFilters,
+} from "@/lib/jobUtils";
 
 export default function Index() {
   const { user } = useGlobalContext();
+  const params = useLocalSearchParams<{
+    query?: string;
+    location?: string;
+    employment?: string;
+    workMode?: string;
+    experience?: string;
+  }>();
 
   const [jobs, setJobs] = useState<JobFromApi[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [filtersMounted, setFiltersMounted] = useState(false);
+  const filterAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     loadJobs();
@@ -50,11 +69,74 @@ export default function Index() {
   };
 
   const handleCardPress = (id: string) => router.push(`/jobs/${id}`);
+  const toggleFilters = () => setFiltersVisible((prev) => !prev);
+
+  const queryParam = params.query?.toString();
+
+  const activeFilters = useMemo<ActiveFilters>(
+    () => ({
+      location: params.location?.toString(),
+      employment: params.employment?.toString(),
+      workMode: params.workMode?.toString(),
+      experience: params.experience?.toString(),
+    }),
+    [params.location, params.employment, params.workMode, params.experience]
+  );
+
+  const filteredJobs = useMemo(() => {
+    if (!jobs.length) return [];
+    return jobs.filter(
+      (job) =>
+        jobMatchesQuery(job, queryParam) &&
+        jobMatchesFilters(job, activeFilters)
+    );
+  }, [jobs, queryParam, activeFilters]);
+
+  const featuredJobs = useMemo(() => filteredJobs.slice(0, 3), [filteredJobs]);
+
+  const hasActiveFilters =
+    (queryParam && queryParam.toString().trim().length > 0) ||
+    Object.values(activeFilters).some(
+      (value) => value && value !== "All" && value.trim().length > 0
+    );
+
+  const showFilteredEmptyState =
+    !loading &&
+    !error &&
+    !!jobs.length &&
+    hasActiveFilters &&
+    !filteredJobs.length;
+
+  useEffect(() => {
+    if (filtersVisible) setFiltersMounted(true);
+    Animated.timing(filterAnim, {
+      toValue: filtersVisible ? 1 : 0,
+      duration: 220,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: true,
+    }).start(({ finished }) => {
+      if (finished && !filtersVisible) {
+        setFiltersMounted(false);
+      }
+    });
+  }, [filtersVisible, filterAnim]);
+
+  const filterStyles = {
+    opacity: filterAnim,
+    transform: [
+      {
+        translateY: filterAnim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [-16, 0],
+        }),
+      },
+    ],
+  };
 
   return (
     <SafeAreaView className="bg-white h-full">
       <FlatList
-        data={jobs}
+        data={filteredJobs}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         numColumns={2}
@@ -86,11 +168,30 @@ export default function Index() {
               </TouchableOpacity>
             </View>
 
+            <Search onToggleFilters={toggleFilters} />
+
+            {(filtersMounted || filtersVisible) && (
+              <Animated.View
+                style={[
+                  {
+                    marginTop: 12,
+                    overflow: "visible",
+                    zIndex: filtersVisible ? 200 : 0,
+                    elevation: filtersVisible ? 20 : 0,
+                  },
+                  filterStyles,
+                ]}
+                pointerEvents={filtersVisible ? "auto" : "none"}
+              >
+                <Filters />
+              </Animated.View>
+            )}
+
             <View className="my-5">
               <Tooltip />
               <View className="flex flex-row items-center justify-between mt-5">
                 <Text className="text-lg font-sora-bold text-dark">
-                  Our Recommendation
+                  Our Recommendations
                 </Text>
                 <TouchableOpacity onPress={() => router.push("/explore")}>
                   <Text className="text-sm font-sora text-primary">
@@ -105,12 +206,32 @@ export default function Index() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerClassName="flex-row gap-4 mt-5 pr-5"
               >
-                <FeaturedCard />
-                <FeaturedCard />
-                <FeaturedCard />
+                {featuredJobs.length
+                  ? featuredJobs.map((job) => {
+                      const location = formatLocation(job);
+                      const salaryRange = formatSalary(job.salary_raw);
+                      const tags = buildTags(job);
+                      const logo = getLogoSource(job);
+
+                      return (
+                        <FeaturedCard
+                          key={job.id}
+                          jobTitle={job.title}
+                          company={job.organization}
+                          location={location}
+                          salaryRange={salaryRange}
+                          tags={tags.length ? tags : undefined}
+                          logo={logo}
+                          onPress={() => handleCardPress(job.id)}
+                        />
+                      );
+                    })
+                  : [0, 1, 2].map((idx) => (
+                      <FeaturedCard key={`placeholder-${idx}`} />
+                    ))}
               </ScrollView>
 
-              <View className="mt-5">
+              <View className="mt-5" style={{ overflow: "visible" }}>
                 <View className="flex flex-row items-center justify-between mt-5">
                   <Text className="text-lg font-sora-bold text-dark">
                     Recent Jobs
@@ -121,7 +242,6 @@ export default function Index() {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <Filters />
               </View>
             </View>
           </View>
@@ -137,6 +257,10 @@ export default function Index() {
               </>
             ) : error ? (
               <Text className="text-sm text-red-500">{error}</Text>
+            ) : showFilteredEmptyState ? (
+              <Text className="text-sm text-[#6C727F]">
+                No jobs match your filters yet.
+              </Text>
             ) : (
               <Text className="text-sm text-[#6C727F]">
                 No jobs found right now.
@@ -145,25 +269,10 @@ export default function Index() {
           </View>
         }
         renderItem={({ item }) => {
-          const location =
-            item.locations_derived?.[0] ??
-            (item.cities_derived &&
-            item.regions_derived &&
-            item.countries_derived
-              ? `${item.cities_derived[0]}, ${item.regions_derived[0]}, ${item.countries_derived[0]}`
-              : (item.locations_raw ?? "Location not specified"));
-
+          const location = formatLocation(item);
           const salaryRange = formatSalary(item.salary_raw);
-
-          const tags: string[] = [];
-          if (item.employment_type) tags.push(item.employment_type);
-          if (item.remote_derived === true) tags.push("Remote");
-          if (item.remote_derived === false) tags.push("Onsite");
-          if (item.experience_level) tags.push(item.experience_level);
-
-          const logo = item.organization_logo
-            ? { uri: item.organization_logo }
-            : undefined;
+          const tags = buildTags(item);
+          const logo = getLogoSource(item);
 
           return (
             <Card

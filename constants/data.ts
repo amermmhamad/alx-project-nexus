@@ -35,16 +35,29 @@ export const settings = [
   },
 ];
 
-export const categories = [
-  { title: "All", category: "All" },
-  { title: "Design", category: "Design" },
-  { title: "Development", category: "Development" },
-  { title: "Marketing", category: "Marketing" },
-  { title: "Business", category: "Business" },
-  { title: "Engineering", category: "Engineering" },
-  { title: "Product", category: "Product" },
-  { title: "Customer Support", category: "Customer Support" },
-  { title: "Sales", category: "Sales" },
-  { title: "Finance", category: "Finance" },
-  { title: "Legal", category: "Legal" },
-];
+const withAll = (options: string[]) => ["All", ...options];
+
+export const locationFilters = withAll([
+  "United States",
+  "United Kingdom",
+  "Canada",
+  "Germany",
+  "France",
+  "Netherlands",
+]);
+
+export const employmentFilters = withAll([
+  "Full Time",
+  "Part Time",
+  "Internship",
+]);
+
+export const workModeFilters = withAll(["Remote", "Hybrid", "Onsite"]);
+
+export const experienceFilters = withAll([
+  "Junior",
+  "Mid",
+  "Senior",
+  "Lead",
+  "Principal",
+]);
