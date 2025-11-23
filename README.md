@@ -190,14 +190,39 @@ Verified method signatures and route handlers.
 
 - Keep PRs small and reviewable
 
-# Personal Takeaways
+## Running Locally
 
-- Real frontend engineering requires understanding systems, not just code.
+1. **Clone & install**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/alx-project-nexus.git
+   cd alx-project-nexus
+   npm install          # or yarn / pnpm install
+   ```
+2. **Environment variables**
+   Create a `.env` file (or `app.config.js` / `app.config.ts`) and set the Expo public RapidAPI keys used by `lib/jobsApi.ts`:
 
-- TypeScript and structured error handling dramatically improve project quality.
+   ```
+   EXPO_PUBLIC_RAPIDAPI_BASE_URL=https://example-api.com
+   EXPO_PUBLIC_RAPIDAPI_KEY=your_key_here
+   EXPO_PUBLIC_RAPIDAPI_HOST=example-api.com
+   ```
 
-- API integration and debugging skills are essential for any professional developer.
+   When cloning this repo for local development without real credentials, the mock dataset in `constants/jobs.json` will still load, but remote API calls will fail unless valid keys are provided.
 
-- Consistency in coding, naming, and architecture saves enormous time long-term.
+3. **Start the Expo dev server**
 
-- Building real applications is the best way to learn.
+   ```bash
+   npx expo start
+   ```
+
+   - Scan the QR code with Expo Go (iOS/Android) or press `w` for web.
+
+4. **Useful scripts**
+   - `npm run lint` – run TypeScript/Nx lint rules
+   - `npm run test` – if you wire up tests
+
+5. **Troubleshooting**
+   - If Metro bundler fails, clear the cache: `npx expo start --clear`
+   - Ensure you’re on an LTS Node version (see `.nvmrc` if present)
+
+Happy hacking!
