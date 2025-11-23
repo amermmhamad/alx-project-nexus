@@ -2,15 +2,15 @@ import icons from "./icons";
 
 export const settings = [
   {
-    title: "My Bookings",
+    title: "Applied Jobs",
     icon: icons.calendar,
   },
   {
-    title: "Payments",
+    title: "User Information",
     icon: icons.wallet,
   },
   {
-    title: "Profile",
+    title: "Education",
     icon: icons.profile,
   },
   {

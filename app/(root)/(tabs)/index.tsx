@@ -32,6 +32,14 @@ import {
   type ActiveFilters,
 } from "@/lib/jobUtils";
 
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good Morning";
+  if (hour < 17) return "Good Afternoon";
+  if (hour < 21) return "Good Evening";
+  return "Good Night";
+};
+
 export default function Index() {
   const { user } = useGlobalContext();
   const params = useLocalSearchParams<{
@@ -45,6 +53,11 @@ export default function Index() {
   const [jobs, setJobs] = useState<JobFromApi[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [greeting, setGreeting] = useState(getGreeting());
+  useEffect(() => {
+    const interval = setInterval(() => setGreeting(getGreeting()), 60_000);
+    return () => clearInterval(interval);
+  }, []);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [filtersMounted, setFiltersMounted] = useState(false);
   const filterAnim = useRef(new Animated.Value(0)).current;
@@ -152,7 +165,7 @@ export default function Index() {
                 />
                 <View className="flex flex-col items-start ml-2 justify-center">
                   <Text className="text-xs font-sora text-dark">
-                    Good Morning
+                    {greeting}
                   </Text>
                   <Text className="text-base font-sora-medium text-dark">
                     {user?.name}

@@ -99,8 +99,8 @@ const Profile = () => {
           </View>
         </View>
         <View className="flex flex-col mt-10">
-          <SettingsItem icon={icons.calendar} title="My Jobs" />
-          <SettingsItem icon={icons.wallet} title="Work Experience" />
+          <SettingsItem icon={icons.calendar} title="Applied Jobs" />
+          <SettingsItem icon={icons.wallet} title="User Information" />
         </View>
         <View className="flex flex-col mt-5 border-t pt-5 border-secondary">
           {settings.slice(2).map((item, index) => (
