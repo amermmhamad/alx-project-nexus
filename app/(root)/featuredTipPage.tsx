@@ -95,12 +95,6 @@ const FeaturedTipPage = () => {
           </Text>
         </View>
 
-        <View className="mt-6 gap-4">
-          {placeholderImages.map((item) => (
-            <PlaceholderCard key={item.id} label={item.label} />
-          ))}
-        </View>
-
         <View className="mt-8 gap-5">
           {tipSections.map((section) => (
             <View
