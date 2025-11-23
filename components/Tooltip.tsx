@@ -20,12 +20,12 @@ const Tooltip = () => {
             Featured tip
           </Text>
           <Text className="text-lg font-sora-bold text-white mt-1">
-            See how you can find a job quickly!
+            Increase your chances of getting hired!
           </Text>
 
           <TouchableOpacity
             className="bg-light rounded-full px-5 py-2 mt-4 self-start shadow-md shadow-zinc-500"
-            onPress={() => router.push("/(root)/(tabs)/explore")}
+            onPress={() => router.push("/(root)/featuredTipPage")}
           >
             <Text className="text-dark font-sora-semibold text-sm">
               Read more
