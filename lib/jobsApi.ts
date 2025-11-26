@@ -1,4 +1,3 @@
-// jobsApi.ts
 import jobs from "@/constants/jobs.json";
 
 export type JobFromApi = {

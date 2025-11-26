@@ -152,8 +152,6 @@ Ensured correct folder structure under /src/app/api/...
 
 Verified method signatures and route handlers.
 
-# Best Practices Learned
-
 ## Coding Best Practices
 
 - Write predictable, reusable components
@@ -169,8 +167,6 @@ Verified method signatures and route handlers.
 ## API Best Practices
 
 - Centralize all API calls
-
-- Use React Query or Apollo caching for performance
 
 - Graceful error handling with fallback UIs
 
@@ -202,9 +198,9 @@ Verified method signatures and route handlers.
    Create a `.env` file (or `app.config.js` / `app.config.ts`) and set the Expo public RapidAPI keys used by `lib/jobsApi.ts`:
 
    ```
-   EXPO_PUBLIC_RAPIDAPI_BASE_URL=https://example-api.com
-   EXPO_PUBLIC_RAPIDAPI_KEY=your_key_here
-   EXPO_PUBLIC_RAPIDAPI_HOST=example-api.com
+   EXPO_PUBLIC_APPWRITE_PROJECT_ID=691cadb4000d286c8b6c
+   EXPO_PUBLIC_APPWRITE_PROJECT_NAME="JobHunt"
+   EXPO_PUBLIC_APPWRITE_ENDPOINT=https://fra.cloud.appwrite.io/v1
    ```
 
    When cloning this repo for local development without real credentials, the mock dataset in `constants/jobs.json` will still load, but remote API calls will fail unless valid keys are provided.
